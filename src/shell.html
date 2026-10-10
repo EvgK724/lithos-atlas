@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="ru" data-text-size="large">
 <head>
+  <meta name="atlas-app" content="lithos"><meta name="atlas-version" content="__APP_RELEASE__"><meta name="atlas-built" content="__APP_BUILT__">
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#0b1417"><meta name="description" content="LITHOS — 10 инженерных загадок древности. Чертежи, доказательства, гипотезы и карточки для запоминания.">
   <meta name="application-name" content="LITHOS"><meta name="apple-mobile-web-app-title" content="LITHOS"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
@@ -17,7 +18,7 @@
  <button type="button" class="qr-trigger header-qr" aria-label="QR-код приложения">QR <span>⌗</span></button>
 </header>
 <main id="main-content">
- <div class="utility-bar"><span class="eyebrow utility-caption"><i></i> КАМЕНЬ. ВРЕМЯ. МАСТЕРСТВО.</span><div class="reading-controls"><label for="text-size"><b aria-hidden="true">Aa</b> Размер текста</label><select id="text-size"><option value="normal">Обычный</option><option value="large" selected>Крупный</option><option value="xlarge">Очень крупный</option></select></div></div>
+ <div class="utility-bar"><span class="eyebrow utility-caption"><i></i> КАМЕНЬ. ВРЕМЯ. МАСТЕРСТВО.</span><div class="reading-controls"><label for="text-size"><b aria-hidden="true">Aa</b> Размер текста</label><select id="text-size"><option value="normal">Крупный</option><option value="large" selected>Очень крупный</option><option value="xlarge">Максимальный</option></select></div></div>
  <div id="atlas-view">
   <section class="hero" id="wonder-top" aria-label="Выбранное сооружение">
    <div class="hero-copy"><div class="wonder-meta"><span id="wonder-rank"></span><i></i><span id="wonder-range"></span></div><h1 id="wonder-name"></h1><p class="wonder-english" id="wonder-english"></p><p class="hero-summary" id="wonder-summary"></p><div class="hero-stats"><div><strong id="wonder-era"></strong><span>эпоха создания</span></div><div><strong id="wonder-city"></strong><span>древний город</span></div></div><button type="button" class="primary-button" id="remember-wonder">Запомнить сооружение <span>↗</span></button><p class="hero-location" id="wonder-location"></p><div class="evidence-status" id="evidence-status"></div></div>
@@ -42,4 +43,5 @@
 <noscript><p style="padding:24px">Для интерактивного атласа включите JavaScript в браузере.</p></noscript>
 <div id="toast" class="toast" role="status"></div>
 <script>/*__DATA__*/</script><script>/*__DRAWINGS__*/</script><script>/*__LEARNING__*/</script><script>/*__APP__*/</script>
+<script>/*__UPDATER__*/</script>
 </body></html>
