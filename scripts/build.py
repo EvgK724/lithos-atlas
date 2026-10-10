@@ -14,16 +14,17 @@ def data_uri(name):
 
 def build(export=None):
     research = json.loads((ROOT / 'sources.json').read_text())
-    assert len(research['wonders']) == 10
+    assert len(research['wonders']) == 12
     data = (SRC / 'data.js').read_text().replace('/*__RESEARCH__*/', json.dumps(research, ensure_ascii=False).replace('<', '\\u003c'))
     parts = {
-        '/*__CSS__*/': '\n'.join((SRC / name).read_text() for name in ['style.css','comfort.css','updater.css']),
+        '/*__CSS__*/': '\n'.join((SRC / name).read_text() for name in ['style.css','comfort.css','engineering.css','updater.css']),
         '__ICON__': data_uri('mark-96.png'),
         '<!--__QR__-->': (DOCS / 'assets' / 'qr.svg').read_text(),
         '/*__DATA__*/': data,
         '/*__DRAWINGS__*/': (SRC / 'diagrams.js').read_text(),
         '/*__LEARNING__*/': (SRC / 'learning.js').read_text(),
         '/*__APP__*/': (SRC / 'app.js').read_text(),
+        '/*__ENGINEERING__*/': 'const ENGINEERING = '+json.dumps(json.loads((ROOT/'engineering.json').read_text()),ensure_ascii=False).replace('<','\\u003c')+';\n'+(SRC/'engineering.js').read_text(),
         '/*__UPDATER__*/': (SRC / 'updater.js').read_text(),
     }
     html = (SRC / 'shell.html').read_text()
@@ -41,7 +42,7 @@ def build(export=None):
     if export:
         export.mkdir(parents=True, exist_ok=True)
         (export / 'LITHOS.html').write_text(offline)
-    print(f'Built {len(html.encode()):,} bytes; 10 monuments, 50 recall cards.')
+    print(f'Built {len(html.encode()):,} bytes; 12 monuments, 72 recall cards.')
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

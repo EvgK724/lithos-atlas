@@ -1,0 +1,49 @@
+/* Numbers support recall without overpowering the reading hierarchy. */
+.engineering-metrics,.engineering-dossier{padding-top:48px;scroll-margin-top:24px;min-width:0}
+.engineering-heading{max-width:920px;margin-bottom:24px}
+.engineering-heading h2{font-size:1.55rem;line-height:1.3;margin:9px 0 14px;letter-spacing:-.02em}
+.engineering-heading>p{color:#b8cbc5;font-size:1rem;line-height:1.7}
+.metric-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:16px}
+.metric-card{min-width:0;padding:24px;background:linear-gradient(145deg,#152a29,#0d1b20);border:1px solid #315f5266;border-radius:12px;box-shadow:inset 0 1px #91f7cc0b}
+.metric-card .metric-value{margin:0 0 12px;line-height:1.25;color:#95f5d5;font-variant-numeric:tabular-nums;letter-spacing:-.035em}
+.metric-number{font-size:1.65rem;font-weight:800;white-space:nowrap}
+.metric-unit{font-size:1.03rem;font-weight:750;white-space:nowrap;letter-spacing:0}
+.metric-card h3{font-size:1rem;line-height:1.45;margin:0 0 12px;font-weight:750}
+.metric-kind{display:block;color:#efbb93;font-size:.8rem;line-height:1.5}
+.metric-details{margin-top:18px;border-top:1px solid #45665b70;padding-top:10px}
+.metric-details summary{cursor:pointer;font-size:.85rem;line-height:1.6;padding:8px 0;min-height:44px;color:#bcd6cc;font-weight:700}
+.metric-details p{font-size:.95rem;line-height:1.7;color:#c6d5d0;margin:10px 0}
+.engineering-sources{padding-left:19px;margin:18px 0 0;display:grid;gap:11px;list-style:disc}
+.engineering-sources li{font-size:.8rem;line-height:1.55;color:#abd6c6;min-width:0}
+.engineering-sources a{color:inherit;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px;overflow-wrap:anywhere}
+.engineering-sources a:hover,.engineering-jump:hover{color:#92ffdb}
+.engineering-recall{margin-top:20px;padding:20px 24px;border:1px solid #85694b80;border-radius:12px;background:#231f19}
+.engineering-recall summary{list-style:none;cursor:pointer;line-height:1.6;font-weight:750;min-height:44px}
+.engineering-recall summary span{display:block}.engineering-recall .eyebrow{color:#dfb991;margin-bottom:8px;font-size:.7rem}
+.recall-instruction{margin-top:10px;color:#dfb991;font-size:.85rem}
+.engineering-recall[open] .recall-instruction{display:none}
+.engineering-recall-answer{border-top:1px solid #80664a70;margin-top:17px;padding-top:17px;font-size:1rem;line-height:1.7}
+.engineering-recall-answer strong{font-size:1.1rem;color:#f0d3ae}.engineering-recall-answer p{margin-bottom:0}
+.engineering-jump{display:inline-block;margin-top:15px;padding:12px 0;font-size:.9rem;color:#90dec3;text-decoration:underline;text-underline-offset:5px}
+.engineering-video{background:#142521;border:1px solid #365b4f;border-left:3px solid #83bbaa;padding:24px;border-radius:8px;margin-bottom:22px}
+.engineering-video h3{font-size:1.2rem;line-height:1.45;margin:10px 0}
+.engineering-video p{font-size:1rem;line-height:1.7;margin:12px 0}
+.engineering-video>a{display:inline-block;padding:9px 0;color:#91e9c8;font-size:.95rem;text-decoration:underline;text-underline-offset:5px}
+.engineering-video .engineering-method{font-size:.8rem;color:#b0c4bc;margin-bottom:0}
+.engineering-questions{display:grid;gap:14px}
+.engineering-question{border:1px solid #37554d;border-radius:10px;background:#101f21;min-width:0}
+.engineering-question>summary{list-style:none;display:flex;align-items:flex-start;gap:15px;padding:23px;cursor:pointer;line-height:1.5;font-size:1.05rem;font-weight:750;min-height:52px}
+.engineering-question>summary::-webkit-details-marker{display:none}
+.engineering-question>summary:after{content:'+';color:#83dabd;margin-left:auto;flex:0 0 auto;font-size:1.2rem}
+.engineering-question[open]>summary:after{content:'−'}
+.question-index{font-size:.7rem;color:#dcb38f;padding-top:.45em;flex:0 0 auto}
+.question-body{padding:0 24px 24px}.question-part{border-top:1px solid #37554d77;padding-top:18px;margin-top:4px}
+.question-part h3{font-size:.8rem;letter-spacing:.04em;color:#e1b98f;margin:0 0 7px;text-transform:uppercase}
+.question-part p{font-size:1rem;line-height:1.8;margin:0 0 20px;color:#ccdad5}
+.method-diagram{margin:20px 0 0}.method-diagram svg{width:100%;height:auto;border-radius:8px;background:#0b191c}
+.method-diagram figcaption{font-size:.85rem;line-height:1.7;color:#b9cfc5;margin-top:14px}
+.engineering-question summary:focus-visible,.metric-details summary:focus-visible,.engineering-recall summary:focus-visible{outline:2px solid #86f5cb;outline-offset:5px}
+@media(max-width:600px){.engineering-metrics,.engineering-dossier{padding-top:35px}.metric-card{padding:22px}.metric-number{font-size:1.6rem}.engineering-heading h2{font-size:1.4rem}.engineering-video{padding:20px}.engineering-video>.eyebrow{font-size:.65rem}.engineering-question>summary{padding:19px 17px;gap:10px;font-size:1rem}.question-body{padding:0 18px 20px}.engineering-recall{padding:19px}.engineering-video h3{font-size:1.1rem}}
+@media(max-width:370px){.metric-number{font-size:1.5rem}.metric-card{padding:20px}.question-index{display:none}.engineering-heading h2{font-size:1.25rem}}
+
+.engineering-recall summary::-webkit-details-marker{display:none}

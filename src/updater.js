@@ -25,7 +25,7 @@
  const setStatus=text=>{status.textContent=text;};
  function reviewBusy(){
   const session=document.querySelector('#review-session'),answer=document.querySelector('#recall-answer');
-  return Boolean(session&&!session.hidden||answer&&!answer.hidden);
+  return Boolean(session&&!session.hidden||answer&&!answer.hidden||document.querySelector('details.engineering-recall[open]'));
  }
  function pageBusy(){
   return reviewBusy()||Boolean(document.querySelector('dialog[open],.viewer.expanded,.drawing-card.is-expanded'))||['INPUT','SELECT','TEXTAREA'].includes(document.activeElement?.tagName);

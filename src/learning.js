@@ -2,7 +2,7 @@
 const Learning=(()=>{
  'use strict';
  const DAY=86400000,STEPS=[1,3,7,14,30];
- const TOPICS={name:'Название',geo:'География',era:'Эпоха',engineering:'Инженерная идея',evidence:'Факты и гипотезы'};
+ const TOPICS={name:'Название',geo:'География',era:'Эпоха',engineering:'Инженерная идея',evidence:'Факты и гипотезы',scale:'Масса и размеры'};
  const cards=WONDERS.flatMap(w=>Object.keys(TOPICS).map(topic=>({id:`${w.id}:${topic}`,wonderId:w.id,topic})));
  const validIds=new Set(cards.map(c=>c.id));
  function clean(raw){
@@ -25,6 +25,7 @@ const Learning=(()=>{
  function due(selection,progress,now=Date.now()){return selection.filter(c=>!progress[c.id]||progress[c.id].due<=now);}
  function content(card){
   const w=BY_ID[card.wonderId];
+  if(card.topic==='scale')return {...w.scaleRecall,hint:'Вспомните порядок величины и к какой части памятника он относится.'};
   if(card.topic==='name')return {question:w.clue,hint:'Назовите памятник, затем откройте ответ.',answer:w.name,detail:`${w.city} · ${w.eraLabel}. ${w.summary}`};
   if(card.topic==='geo')return {question:`Где находится ${w.name}?`,hint:'Вспомните место и современную страну.',answer:`${w.city} · ${w.modernCountry}`,detail:w.location};
   if(card.topic==='era')return {question:`К какой эпохе относится ${w.name}?`,hint:'Достаточно вспомнить эпоху или тысячелетие. Даты относятся к определённой строительной фазе.',answer:w.eraLabel,detail:w.dateNote};

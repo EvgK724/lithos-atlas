@@ -10,6 +10,8 @@ const EDITORIAL = {
   newgrange:{anchor:'Свет внутри холма',titles:['Проход и камера','Каменный свод','Зимнее солнце'],engineeringTitle:'Удержать насыпь и провести свет в глубину',pair:'hagarqim'},
   hagarqim:{anchor:'Кривые стены, большие камни',titles:['Мальтийский неолит','План храма','Местный известняк'],engineeringTitle:'Мегалитическая оболочка и внутренние камеры',pair:'newgrange'},
   pumapunku:{anchor:'Сначала блок, затем узел',titles:['Мир Тиуанако','Два вида камня','Повторяемые формы'],engineeringTitle:'Модули из андезита и каменная платформа',pair:'petra'},
+  barabar:{anchor:'Зеркало внутри камня',titles:['Надписи','Геометрия','Следы'],engineeringTitle:'Форма и полировка',pair:'serapeum'},
+  obelisk:{anchor:'Замысел в скале',titles:['Масса','Добыча','Установка'],engineeringTitle:'Отделить и поставить',pair:'baalbek'},
   petra:{anchor:'Фасад вычитают из скалы',titles:['Набатейское мастерство','Высеченный фасад','Название и назначение'],engineeringTitle:'Здание, которое получают удалением камня',pair:'pumapunku'}
 };
 const SEARCH_ALIASES={osireion:['Осирейон','Оссиреон','Оссирион','Osirion'],khufu:['Хуфу','Великая пирамида'],baalbek:['Баалбек'],petra:['Эль-Хазне','Аль-Хазна','Сокровищница'],hagarqim:['Хагар-Ким']};

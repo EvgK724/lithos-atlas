@@ -4,7 +4,7 @@
  */
 (function () {
   'use strict';
-  const IDS=['khufu','osireion','serapeum','baalbek','gobekli','stonehenge','newgrange','hagarqim','pumapunku','petra'];
+  const IDS=['khufu','osireion','serapeum','baalbek','gobekli','stonehenge','newgrange','hagarqim','pumapunku','petra','barabar','obelisk'];
   const NAMES={khufu:'Пирамида Хеопса',osireion:'Осирион',serapeum:'Серапеум',baalbek:'Баальбек',gobekli:'Гёбекли-Тепе',stonehenge:'Стоунхендж',newgrange:'Ньюгрейндж',hagarqim:'Хаджар-Ким',pumapunku:'Пума-Пунку',petra:'Петра — Эль-Хазне'};
   let serial=0;
   const esc=v=>String(v==null?'':v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -328,11 +328,47 @@
     return {body,labels:label(23,139,['Скальный','массив'],[272,217],'left')+label(716,285,['Резной','фасад'],[575,351])+label(25,442,['Вход','в камеру'],[451,447],'left')};
   }
 
+  function barabar(a,cut) {
+    const {label}=a;
+    const stone='<path d="M164 200L235 171L648 182L721 224L734 430L668 458L191 444L157 396Z" fill="#243d3d" stroke="#688e80" stroke-width="1.5"/>';
+    if(!cut){
+      let body=stone+'<path d="M196 227L216 206M650 204L687 229M175 372L193 402M679 421L697 393" stroke="#8ba090" opacity=".4" fill="none"/>';
+      body+='<ellipse cx="270" cy="309" rx="72.8" ry="69.5" fill="#091a20" stroke="#8cf3d0" stroke-width="2.5"/><rect x="361" y="238" width="239.5" height="142.6" rx="2" fill="#091a20" stroke="#8cf3d0" stroke-width="2.5"/><path d="M339 291H364V325H339M534 378V419H568V378" fill="#091a20" stroke="#8cf3d0" stroke-width="2.5"/><path d="M339 294V322M364 294V322M537 378H565" stroke="#091a20" stroke-width="6"/><path d="M601 290H634V324H601" fill="#a37f4933" stroke="#e3b580" stroke-width="2" stroke-dasharray="5 4"/>';
+      body+='<path d="M375 220H586M375 213V227M586 213V227M549 435V417M544 423L549 417L554 423" fill="none" stroke="#e4b98d" stroke-width="1.8"/>';
+      return {body,labels:label(23,127,['Камера','≈6,07 × 5,79 м'],[239,264],'left')+label(672,117,['Зал','≈10 × 5,9 м'],[544,251])+label(654,454,['Вход сбоку'],[550,408])};
+    }
+    let body=stone+'<path d="M197 391V325C197 230 341 230 341 325V391Z" fill="#0a2023" stroke="#8cf3d0" stroke-width="2.5"/><path d="M361 391V255H600V391Z" fill="#0a2023" stroke="#8cf3d0" stroke-width="2.5"/><path d="M338 391V334H364V391" fill="#0a2023" stroke="#8cf3d0" stroke-width="2.5"/><path d="M201 391H599" stroke="#dfa974" stroke-width="3"/><path d="M385 270H572M385 285H572" stroke="#b1eee0" stroke-opacity=".1" stroke-width="2"/><path d="M600 336H634V391H600" fill="#a37f4920" stroke="#e3b580" stroke-dasharray="5 4" stroke-width="2"/>';
+    body+='<path d="M573 257V389M564 257H582M564 389H582" stroke="#e4b98d" stroke-width="1.8"/>';
+    return {body,labels:label(25,127,['Купол','камеры'],[264,271],'left')+label(670,127,['Высота зала','≈3,7 м'],[575,301])+label(668,447,['Незавершённый','вырез'],[622,363])};
+  }
+
+  function obelisk(a,cut) {
+    const {poly,edge,label}=a;
+    if(!cut){
+      let body=poly([[129,390],[532,129],[781,253],[363,527]],'#35413c','#718f7a',1.3);
+      body+=poly([[205,389],[565,166],[692,235],[336,475]],'#0d2225','#739f8d',1.3);
+      body+=poly([[223,385],[563,183],[660,237],[333,451]],'#947a61','#d2b38b',1.3);
+      body+=poly([[223,385],[333,451],[334,479],[223,413]],'#665547','#ae9677',1.1);
+      body+=poly([[333,451],[660,237],[660,266],[334,479]],'#524b40','#af957a',1.1);
+      body+=edge([[483,232],[461,258],[491,281]],'#202c28',4,.9)+edge([[310,461],[635,246]],'#8febc9',2,.8,'7 5');
+      for(let i=0;i<8;i++){const x=271+i*37,y=403-i*23;body+=edge([[x-33,y-13],[x-42,y-30],[x-38,y-35]],'#c1a789',2,.55);}
+      return {body,labels:label(26,126,['Заготовка','≈42 м'],[399,300],'left')+label(692,132,['Траншея'],[571,178])+label(647,440,['Связь','со скалой'],[491,385])};
+    }
+    let body=poly([[170,250],[730,250],[730,475],[170,475]],'#35413c','#718f7a',1.3);
+    body+=poly([[293,250],[352,250],[352,380],[293,380]],'#0b1d21','#7c9d8b',1.5)+poly([[548,250],[607,250],[607,380],[548,380]],'#0b1d21','#7c9d8b',1.5);
+    body+=poly([[352,240],[548,240],[548,380],[352,380]],'#947a61','#e0bc8d',1.5);
+    body+=edge([[366,382],[534,382]],'#efbb85',2.5,.9,'8 6')+edge([[365,399],[373,414],[391,405],[412,429],[436,411],[466,433],[497,412],[524,425]],'#576853',1,.7);
+    for(let i=0;i<5;i++)body+=edge([[294,259+i*23],[301,264+i*23],[299,279+i*23]],'#92b59d',1.5,.65);
+    return {body,labels:label(25,127,['Контур','обелиска'],[401,251],'left')+label(679,145,['Боковые','траншеи'],[580,312])+label(661,441,['Низ ещё','не отделён'],[456,383])};
+  }
+
   function defs(ns) {
     return `<defs><radialGradient id="${ns}-aura"><stop stop-color="#3a8f7d" stop-opacity=".15"/><stop offset=".6" stop-color="#25453f" stop-opacity=".06"/><stop offset="1" stop-color="#0b1417" stop-opacity="0"/></radialGradient><linearGradient id="${ns}-fade" x1="0" y1="0" x2="0" y2="1"><stop offset=".68" stop-color="#0b1417" stop-opacity="0"/><stop offset="1" stop-color="#0b1417" stop-opacity=".2"/></linearGradient></defs>`;
   }
-  const DRAW={khufu,osireion,serapeum,baalbek,gobekli,stonehenge,newgrange,hagarqim,pumapunku,petra};
+  const DRAW={khufu,osireion,serapeum,baalbek,gobekli,stonehenge,newgrange,hagarqim,pumapunku,petra,barabar,obelisk};
   const DETAILS={
+    barabar:'Судама: план с боковым южным входом или продольный разрез. Два диаметра почти круглой камеры сохранены раздельно. Малый восточный вырез незавершён. По Cunningham, 1871, с. 46 и табл. XIX; не современная лазерная модель.',
+    obelisk:'Асуанская заготовка в карьере и условное поперечное сечение траншей. Низ не отделён полностью. Рисунок показывает строительную задачу; профиль конкретных углов и следов не воспроизводит.',
     khufu:'Показаны объём, облицовка, каменное ядро и условные внутренние проходы; положение камер упрощено.',
     osireion:'Показаны центральная площадка, две линии опор и окружающий канал. Уровень воды не является реконструкцией исторического уровня.',
     serapeum:'Подземная галерея показана в условном раскрытии; свод вырублен в скале. Корпус саркофага и его отдельная крышка показаны без размеров.',

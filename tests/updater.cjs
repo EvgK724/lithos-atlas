@@ -35,6 +35,7 @@ async function until(page,test){await page.waitForFunction(test,null,{timeout:10
  await page.locator(`[data-view=${view}]`).click();
  if(kemet)await page.locator('#recall-button').click();
  else{await page.locator('[data-mode=learn]').first().click();await page.locator('#practice-all').click();await page.locator('#reveal-answer').click();}
+ await page.locator('details.engineering-recall').evaluate(e=>e.open=true);
  const answer=await page.locator(kemet?'#recall-answer':'#card-answer').textContent();
  available=next;delivered=next;
  await page.evaluate(()=>dispatchEvent(new Event('online')));
@@ -45,6 +46,9 @@ async function until(page,test){await page.waitForFunction(test,null,{timeout:10
  assert.ok(await page.locator('#update-now').isDisabled());
  if(kemet)await page.locator('#recall-button').click();
  else{await page.locator('#end-review').click();await page.locator('[data-mode=atlas]').first().click();}
+ await page.clock.fastForward(12000);
+ assert.equal(await page.locator('meta[name=atlas-version]').getAttribute('content'),release.version,'An open mass recall answer also protects reading');
+ await page.locator('details.engineering-recall').evaluate(e=>e.open=false);
  await page.clock.fastForward(12000);
  await page.waitForFunction(v=>document.querySelector('meta[name=atlas-version]').content===v,next.version,{timeout:10000});
  assert.equal(await page.locator('#text-size').inputValue(),'xlarge');

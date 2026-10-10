@@ -37,12 +37,12 @@
     const searchKey=s=>s.toLocaleLowerCase('ru').replace(/ё/g,'е').replace(/[\s\-–—]/g,'');
     const query=searchKey($('#wonder-search').value.trim());
     const list=WONDERS.filter(w=>(range==='all'||w.group===range)&&[w.name,w.nameEn,w.city,w.modernCountry,w.eraShort,...(w.aliases||[])].some(t=>searchKey(t).includes(query)));
-    $('#wonder-grid').innerHTML=list.map(w=>`<button type='button' class='wonder-card${w.id===wonderId?' selected':''}' data-wonder='${w.id}' aria-pressed='${w.id===wonderId}' aria-label='${esc(w.name)}, ${esc(w.city)}'><span class='wonder-card-number'>${String(w.order).padStart(2,'0')} / 10</span><div class='wonder-card-visual' aria-hidden='true'>${wonderMini(w.id)}</div><strong class='wonder-card-name'>${esc(w.shortName)}</strong><span class='wonder-card-alt'>${esc(w.eraShort)}</span><span class='wonder-card-range'>${esc(w.city)} · ${esc(w.modernCountry)}</span></button>`).join('');
+    $('#wonder-grid').innerHTML=list.map(w=>`<button type='button' class='wonder-card${w.id===wonderId?' selected':''}' data-wonder='${w.id}' aria-pressed='${w.id===wonderId}' aria-label='${esc(w.name)}, ${esc(w.city)}'><span class='wonder-card-number'>${String(w.order).padStart(2,'0')} / ${WONDERS.length}</span><div class='wonder-card-visual' aria-hidden='true'>${wonderMini(w.id)}</div><strong class='wonder-card-name'>${esc(w.shortName)}</strong><span class='wonder-card-alt'>${esc(w.eraShort)}</span><span class='wonder-card-range'>${esc(w.city)} · ${esc(w.modernCountry)}</span></button>`).join('');
     $('#empty-search').hidden=list.length>0;
   }
   function renderWonder(){
     const w=BY_ID[wonderId];
-    set('#wonder-rank',`${String(w.order).padStart(2,'0')} / ДЕСЯТЬ СООРУЖЕНИЙ`);set('#wonder-range',groupName(w).toLocaleUpperCase('ru'));
+    set('#wonder-rank',`${String(w.order).padStart(2,'0')} / ${WONDERS.length} СООРУЖЕНИЙ`);set('#wonder-range',groupName(w).toLocaleUpperCase('ru'));
     set('#wonder-name',w.name);$('#wonder-name').classList.toggle('long-title',w.name.length>12);
     set('#wonder-english',w.nameEn);set('#wonder-summary',w.summary);
     set('#wonder-era',w.eraShort);set('#wonder-city',w.city);set('#wonder-location',w.location);
@@ -55,35 +55,37 @@
     $('#facts-grid').innerHTML=w.facts.map((f,i)=>`<article class='fact-item'><span>${String(i+1).padStart(2,'0')}</span><h3>${esc(w.titles[i])}</h3><p>${esc(f)}</p></article>`).join('');
     set('#established-text',w.established);set('#hypothesis-text',w.hypothesis);set('#open-question',w.openQuestion);set('#uncertainty-text',w.uncertainty.text);
     set('#pair-title',w.pairTitle);set('#pair-text',w.pairText);set('#pair-button',`${BY_ID[w.pair].shortName} →`);
+    Engineering.renderMetrics(w.id,w.shortName);Engineering.renderDossier(w.id);
+    $('.view-tabs [data-view="exterior"]').textContent=w.id==='barabar'?'План':'Облик';$('.view-tabs [data-view="structure"]').textContent=w.id==='barabar'?'Разрез':'Устройство';
     renderViewer();renderGrid();if(mode==='atlas')document.title=`${w.shortName} — LITHOS`;
   }
   function chooseWonder(id,scroll=false){if(!BY_ID[id])return;wonderId=id;renderWonder();writeURL();if(scroll&&!expanded)goTop();}
-  const mapPositions={khufu:[530,437],osireion:[580,578],serapeum:[405,491],baalbek:[735,373],gobekli:[742,259],stonehenge:[265,234],newgrange:[109,153],hagarqim:[345,355],pumapunku:[883,458],petra:[714,496]};
+  const mapPositions={khufu:[530,437],osireion:[580,578],serapeum:[405,491],baalbek:[735,373],gobekli:[742,259],stonehenge:[265,234],newgrange:[109,153],hagarqim:[345,355],pumapunku:[883,458],petra:[714,496],barabar:[907,187],obelisk:[703,583]};
   function mapDrawing(){
-    const project=w=>w.id==='pumapunku'?[874,426]:[65+(w.lon+15)*11,70+(65-w.lat)*10];
+    const project=w=>w.id==='pumapunku'?[874,426]:w.id==='barabar'?[880,145]:[65+(w.lon+15)*11,70+(65-w.lat)*10];
     const lines=[-10,0,10,20,30,40,50].map(l=>{const x=65+(l+15)*11;return `<path d='M${x} 65V602'/><text x='${x+5}' y='630' class='map-degree'>${Math.abs(l)}°${l<0?'W':'E'}</text>`;}).join('')+[20,30,40,50,60].map(l=>{const y=70+(65-l)*10;return `<path d='M45 ${y}H810'/><text x='3' y='${y+5}' class='map-degree'>${l}°N</text>`;}).join('');
     const dots=WONDERS.map(w=>{const [x,y]=project(w),[lx,ly]=mapPositions[w.id],active=w.id===wonderId;return `<g class='map-dot${active?' active':''}' data-map-wonder='${w.id}' role='button' tabindex='0' aria-label='${w.order}. ${esc(w.shortName)}, ${esc(w.city)}' aria-pressed='${active}'><path d='M${x} ${y}L${lx} ${ly}' stroke='${active?'#67f2cd':'#52756c'}' stroke-width='${active?2.5:1.5}'/><circle cx='${x}' cy='${y}' r='${active?8:5}' fill='${active?'#67f2cd':'#efa878'}'/><circle class='map-hit' cx='${lx}' cy='${ly}' r='40'/><circle class='map-badge' cx='${lx}' cy='${ly}' r='28'/><text x='${lx}' y='${ly+1}'>${w.order}</text></g>`;}).join('');
-    return `<svg viewBox='0 0 1000 650' role='group' aria-label='Карта-схема расположения десяти сооружений. Пума-Пунку на отдельной врезке Анд.'><g stroke='#50776840' stroke-dasharray='3 7'>${lines}</g><text x='62' y='39' class='map-caption'>ЕВРОПА · СЕВЕР АФРИКИ · ЗАПАДНАЯ АЗИЯ</text><text x='360' y='242' class='map-caption'>СЕВЕР ↑</text><rect x='827' y='310' width='162' height='270' rx='6' fill='#0d211d' stroke='#497266'/><text x='844' y='345' class='map-caption'>АНДЫ</text><text x='844' y='377' class='map-degree'>БОЛИВИЯ</text><text x='842' y='541' class='map-degree'>16°S · 69°W</text>${dots}</svg>`;
+    return `<svg viewBox='0 0 1000 650' role='group' aria-label='Карта-схема расположения ${WONDERS.length} сооружений. Барабар и Пума-Пунку показаны на отдельных врезках.'><g stroke='#50776840' stroke-dasharray='3 7'>${lines}</g><text x='62' y='39' class='map-caption'>ЕВРОПА · СЕВЕР АФРИКИ · ЗАПАДНАЯ АЗИЯ</text><text x='360' y='242' class='map-caption'>СЕВЕР ↑</text><rect x='827' y='70' width='162' height='214' rx='6' fill='#0d211d' stroke='#497266'/><text x='844' y='107' class='map-caption'>ИНДИЯ</text><text x='842' y='258' class='map-degree'>25°N · 85°E</text><rect x='827' y='310' width='162' height='270' rx='6' fill='#0d211d' stroke='#497266'/><text x='844' y='345' class='map-caption'>АНДЫ</text><text x='844' y='377' class='map-degree'>БОЛИВИЯ</text><text x='842' y='541' class='map-degree'>16°S · 69°W</text>${dots}</svg>`;
   }
   function renderViewer(){
     const w=BY_ID[wonderId],content=$('#viewer-content'),top=content.querySelector('.height-chart')?.scrollTop||0;
     $$('.view-tabs button').forEach(b=>{b.classList.toggle('active',b.dataset.view===view);b.setAttribute('aria-pressed',String(b.dataset.view===view));});
     set('#viewer-code',`${Math.abs(w.lat).toFixed(2)}°${w.lat<0?'S':'N'} / ${Math.abs(w.lon).toFixed(2)}°${w.lon<0?'W':'E'}`);$('#diagram-key').hidden=view==='timeline';$('#diagram-key').classList.toggle('map-index',view==='map');$('#diagram-key').setAttribute('aria-label',view==='map'?'Выбрать сооружение на карте':'Подписи схемы');
     if(view==='exterior'||view==='structure'){
-      set('#viewer-title',view==='exterior'?'АРХИТЕКТУРНЫЙ ОБРАЗ':'КАК ЭТО УСТРОЕНО');content.innerHTML=wonderDrawing(w,view);
+      set('#viewer-title',w.id==='barabar'?(view==='exterior'?'СУДАМА · ПЛАН':'СУДАМА · ПРОДОЛЬНЫЙ РАЗРЕЗ'):(view==='exterior'?'АРХИТЕКТУРНЫЙ ОБРАЗ':'КАК ЭТО УСТРОЕНО'));content.innerHTML=wonderDrawing(w,view);
       const labels=[...content.querySelectorAll('svg text')].map(t=>t.querySelectorAll('tspan').length?[...t.querySelectorAll('tspan')].map(s=>s.textContent).join(' '):t.textContent);
       $('#diagram-key').innerHTML=labels.map(t=>`<li>${esc(t)}</li>`).join('');
       const note=content.querySelector('svg desc')?.textContent||'Учебная инженерная схема. Пропорции и детали упрощены; утраченные части показаны условно.';
       set('#viewer-note',note);
     }else if(view==='timeline'){
-      set('#viewer-title','ДЕСЯТЬ СООРУЖЕНИЙ ВО ВРЕМЕНИ');
-      content.innerHTML=`<div class='height-chart' tabindex='0' aria-label='Хронология десяти сооружений. Прокручиваемый список.'><p class='chart-intro'>От более раннего к более позднему.<br>Даты приблизительные; интервалы между строками не обозначают длительность.</p>${[...WONDERS].sort((a,b)=>a.dateSort-b.dateSort).map(p=>`<button type='button' class='timeline-row${p.id===wonderId?' active':''}' data-time-wonder='${p.id}' aria-pressed='${p.id===wonderId}'><span class='timeline-era'>${esc(p.eraShort)}</span><span class='timeline-name'>${esc(p.shortName)}<span class='timeline-city'>${esc(p.city)}</span></span></button>`).join('')}</div>`;
+      set('#viewer-title',`${WONDERS.length} СООРУЖЕНИЙ ВО ВРЕМЕНИ`);
+      content.innerHTML=`<div class='height-chart' tabindex='0' aria-label='Хронология ${WONDERS.length} сооружений. Прокручиваемый список.'><p class='chart-intro'>От более раннего к более позднему.<br>Даты приблизительные; интервалы между строками не обозначают длительность.</p>${[...WONDERS].sort((a,b)=>a.dateSort-b.dateSort).map(p=>`<button type='button' class='timeline-row${p.id===wonderId?' active':''}' data-time-wonder='${p.id}' aria-pressed='${p.id===wonderId}'><span class='timeline-era'>${esc(p.eraShort)}</span><span class='timeline-name'>${esc(p.shortName)}<span class='timeline-city'>${esc(p.city)}</span></span></button>`).join('')}</div>`;
       content.querySelector('.height-chart').scrollTop=top;
       set('#viewer-note','Даты относятся к разным строительным фазам; подробности указаны в карточках. Строки упорядочены по времени, расстояния между ними не отражают длительность.');
     }else{
       set('#viewer-title','ГЕОГРАФИЯ СООРУЖЕНИЙ');content.innerHTML=mapDrawing();
       $('#diagram-key').innerHTML=WONDERS.map(p=>`<li><button type='button' data-map-select='${p.id}' aria-pressed='${p.id===wonderId}'><span>${p.order}</span> ${esc(p.shortName)}</button></li>`).join('');
-      set('#viewer-note',`${w.order}. ${w.shortName} · ${w.city}. Номера соответствуют карточкам. Пума-Пунку — на отдельной врезке Анд; масштабы основной карты и врезки различаются.`);
+      set('#viewer-note',`${w.order}. ${w.shortName} · ${w.city}. Номера соответствуют карточкам. Барабар и Пума-Пунку — на врезках Индии и Анд; их масштабы отличаются от основной карты.`);
     }
   }
 
@@ -103,7 +105,7 @@
   function showSources(id=wonderId){
     const w=BY_ID[id];
     const group=(title,sources)=>`<section class='source-group'><h3>${esc(title)}</h3>${sources.map(s=>`<a class='source-link' href='${esc(s.url)}' target='_blank' rel='noopener noreferrer'><strong>${esc(s.title)} ↗</strong><span>${esc(s.supports)}</span></a>`).join('')}</section>`;
-    $('#sources-list').innerHTML=`<p class='height-note'>${esc(w.uncertainty.text)}</p>${group(w.name,w.sources)}${group('Археологический контекст',RESEARCH.meta.generalSources)}`;
+    $('#sources-list').innerHTML=`<p class='height-note'>${esc(w.uncertainty.text)}</p>${group(w.name,[...w.sources,...Engineering.sources(w.id)].filter((s,i,a)=>a.findIndex(x=>x.url===s.url)===i))}${group('Археологический контекст',RESEARCH.meta.generalSources)}`;
     set('#source-policy','Источники сверены 10 октября 2026. Даты приблизительны и относятся к указанной строительной фазе. Иллюстрации упрощают форму памятников; утраченные части и спорные детали показаны условно. Ассоциации созданы для обучения.');
     openDialog($('#sources-dialog'));
   }
